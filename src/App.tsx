@@ -5,7 +5,9 @@ function App() {
   const updateTime = () => {
     const timeLabel = document.getElementById('timeLabel');
     const currentTime = new Date().toISOString();
-    timeLabel.textContent = currentTime;
+    if (timeLabel) {
+      timeLabel.textContent = currentTime;
+    }
   };
 
   return (

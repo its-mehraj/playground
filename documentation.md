@@ -1,10 +1,9 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-**Table of Contents** _generated with [DocToc](https://github.com/thlorenz/doctoc)_
-
 - [Documentation](#documentation)
-  - [Create a new react project with typescript from scratch](#create-a-new-react-project-with-typescript-from-scratch)
+  - [Create a new react project from scratch](#create-a-new-react-project-from-scratch)
+  - [Add typescript](#add-typescript)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -213,3 +212,79 @@ This indicates that the dev server is not configured to serve the css files. To 
 
 You could now adapt the webpack configuration or realize that the css styles are already bundled in the js.
 So the stylesheet link in the html can be removed.
+
+## Add typescript
+
+install typescript and the loader
+
+```
+npm install typescript ts-loader --save-dev
+```
+
+Update webpack configuration
+
+```js
+const path = require('path');
+
+module.exports = {
+  entry: './src/index.tsx',
+  output: {
+    path: path.resolve(__dirname, 'public'),
+    filename: 'bundle.js',
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
+  },
+  devServer: {
+    contentBase: path.resolve(__dirname, 'public'),
+  },
+  mode: 'development',
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/, // Handle TypeScript files
+        exclude: /node_modules/,
+        use: 'ts-loader',
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+        },
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
+};
+```
+
+Update the js file extentions of App.js to App.tsx and index.js to index.tsx. Furthermore, update the entry point in package.json.
+
+Create `tsconfig.json` for ts configuration
+
+```json
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  },
+  "include": ["src"]
+}
+```

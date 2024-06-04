@@ -4,10 +4,12 @@ import App from './App';
 
 const app = document.getElementById('root');
 
-const root = createRoot(app);
+// if(app == null){
+//   return
+// }
 
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+if (app != null) {
+  const root = createRoot(app);
+
+  root.render(<App />);
+}
