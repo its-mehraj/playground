@@ -12,7 +12,7 @@ function App() {
 
   return (
     <div className="container">
-      <label id="timeLabel">Current Time</label>
+      <div id="timeLabel">Current Time</div>
       <button onClick={updateTime}>Update Time</button>
     </div>
   );

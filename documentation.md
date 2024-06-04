@@ -62,7 +62,7 @@ Adapt folder structure to react app
 Adapt html to react
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -91,7 +91,7 @@ const root = createRoot(app);
 root.render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 ```
 
@@ -218,7 +218,7 @@ So the stylesheet link in the html can be removed.
 install typescript and the loader
 
 ```
-npm install typescript ts-loader --save-dev
+npm install typescript ts-loader  @types/react @types/react-dom  --save-dev
 ```
 
 Update webpack configuration
@@ -234,9 +234,6 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
-  },
-  devServer: {
-    contentBase: path.resolve(__dirname, 'public'),
   },
   mode: 'development',
   module: {
@@ -286,5 +283,51 @@ Create `tsconfig.json` for ts configuration
     "noUnusedParameters": true
   },
   "include": ["src"]
+}
+```
+
+## Add eslint
+
+Install dependencies
+
+```
+npm install eslint eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react eslint-plugin-jsx-a11y @typescript-eslint/parser @typescript-eslint/eslint-plugin prettier eslint-config-prettier eslint-plugin-prettier --save-dev
+```
+
+Create `.eslintrc.js` configuration file
+
+```js
+module.exports = {
+  parser: '@typescript-eslint/parser',
+  extends: [
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+    'eslint:recommended',
+    'plugin:jsx-a11y/recommended',
+    'prettier',
+    'prettier/@typescript-eslint',
+    'prettier/react',
+  ],
+  plugins: ['@typescript-eslint', 'react', 'react-hooks', 'import', 'jsx-a11y'],
+  env: {
+    browser: true,
+    node: true,
+    es6: true,
+  },
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
+};
+```
+
+Add scripts
+
+```
+"scripts": {
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx src",
+    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx src"
 }
 ```
