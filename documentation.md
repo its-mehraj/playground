@@ -4,6 +4,7 @@
 - [Documentation](#documentation)
   - [Create a new react project from scratch](#create-a-new-react-project-from-scratch)
   - [Add typescript](#add-typescript)
+  - [Add eslint](#add-eslint)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
