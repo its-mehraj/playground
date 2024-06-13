@@ -26,7 +26,7 @@ npm init -y
 **Result**:
 
 - package.json created
-
+You can also add `"type": "module"` to have ESNext modules as well. This allows you the use of modern js.
 ```
 {
   "name": "playground",
