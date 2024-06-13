@@ -218,6 +218,8 @@ So the stylesheet link in the html can be removed.
 
 install typescript and the loader
 
+The loader itself is not 100% necessary. It is needed for a proper webpack configuration. All we need is a transpiler. The transpiler turns the ts code into js and removes all the type checks. Therefore, ts code is not slower than js code since it's the same. Theoretically, you could simply execute `npx tsc` which would transform every ts file into a js file. We wouldnt have a bundled output file. Instead, every ts file will lead to js file being generated. The js files are now the runnable scripts.
+
 ```
 npm install typescript ts-loader  @types/react @types/react-dom  --save-dev
 ```
@@ -263,6 +265,8 @@ module.exports = {
 Update the js file extentions of App.js to App.tsx and index.js to index.tsx. Furthermore, update the entry point in package.json.
 
 Create `tsconfig.json` for ts configuration
+
+You could also type `npx tsc -init` into the console.
 
 ```json
 {
