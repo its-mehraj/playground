@@ -1,19 +1,14 @@
 import React from 'react';
 import './App.css';
+import { Frame } from './Components/Frame';
+import { WaterDrop } from './Components/WaterDrop';
 
 function App() {
-  const updateTime = () => {
-    const timeLabel = document.getElementById('timeLabel');
-    const currentTime = new Date().toISOString();
-    if (timeLabel) {
-      timeLabel.textContent = currentTime;
-    }
-  };
-
   return (
     <div className="container">
-      <div id="timeLabel">Current Time</div>
-      <button onClick={updateTime}>Update Time</button>
+      <Frame>
+        <WaterDrop />
+      </Frame>
     </div>
   );
 }

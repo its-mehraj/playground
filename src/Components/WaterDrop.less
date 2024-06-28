@@ -1,0 +1,27 @@
+.waterdrop {
+  width: 400px;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #e0f7fa;
+  // overflow: hidden;
+
+  &__ripple {
+    height: 400px;
+    width: 300px;
+    border: 2px solid #004d40;
+    position: relative;
+  }
+
+  &__bar {
+    position: absolute;
+    bottom: 0px;
+
+    width: 1px;
+    background: blue;
+
+    transition: height 50ms ease-in-out;
+  }
+}

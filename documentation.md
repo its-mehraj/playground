@@ -17,10 +17,8 @@ Resources:
 
 ## Create a new react project from scratch
 
-Add webpack (bundler) to project
-
 ```
-npm init -y
+npm init
 ```
 
 **Result**:
@@ -48,18 +46,6 @@ Add react dependencies
 npm install react react-dom
 ```
 
-Adapt folder structure to react app
-
-```
-- playground
-  - public
-    - index.html
-  - src
-    - index.js
-    - App.js
-    - App.css
-```
-
 Adapt html to react
 
 ```html
@@ -69,7 +55,6 @@ Adapt html to react
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>React App</title>
-    <link rel="stylesheet" href="src/App.css" />
   </head>
   <body>
     <div id="root"></div>
@@ -311,10 +296,16 @@ module.exports = {
     'eslint:recommended',
     'plugin:jsx-a11y/recommended',
     'prettier',
-    'prettier/@typescript-eslint',
-    'prettier/react',
+    'plugin:prettier/recommended',
   ],
-  plugins: ['@typescript-eslint', 'react', 'react-hooks', 'import', 'jsx-a11y'],
+  plugins: [
+    '@typescript-eslint',
+    'react',
+    'react-hooks',
+    'import',
+    'jsx-a11y',
+    'prettier',
+  ],
   env: {
     browser: true,
     node: true,
@@ -335,4 +326,42 @@ Add scripts
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src",
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx src"
 }
+```
+
+## Add less
+
+Install dependencies
+
+```
+npm install less less-loader css-loader style-loader --save-dev
+```
+
+Update webpack config
+
+```
+const path = require('path');
+
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.less$/,
+        use: [
+          'style-loader',  // Injects styles into DOM
+          'css-loader',    // Turns CSS into CommonJS
+          'less-loader',   // Compiles LESS to CSS
+        ],
+      },
+    ],
+  },
+  resolve: {
+    extensions: ['.js', '.jsx', '.less'],
+  },
+};
+
 ```

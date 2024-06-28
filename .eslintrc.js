@@ -17,6 +17,9 @@ module.exports = {
     'jsx-a11y',
     'prettier',
   ],
+  rules: {
+    'prettier/prettier': 'warn',
+  },
   env: {
     browser: true,
     node: true,
