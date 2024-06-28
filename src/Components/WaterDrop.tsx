@@ -7,33 +7,39 @@ const blockClass = `waterdrop`;
 
 const width = 300;
 const waterDepth = 100;
+const mediumWaterDepth = 75;
 const amountOfBars = 100;
-const totalFrames = 1000;
+const amplitudeDamp = 500;
+const totalFrames = 60;
 const duration = 5000; // in ms
 
 type Point = { x: number; y: number };
 
-function getRipple(totalFrames: number) {
-  const intialAmplitude = 50;
+function getRipple(
+  damp: number,
+  intialAmplitude: number,
+  frequency: number,
+  waveDamping: number,
+  verticalOffset: number,
+  phaseShift?: number,
+) {
   let amplitude = intialAmplitude;
-  const frequency = 2;
-  const damping = 0.02;
 
   const createRipple = (frameNumber: number, amp: number): Array<Point> => {
     return Array.from({ length: amountOfBars }, (_, i) => {
       const x = i * 3 - width / 2;
       const y =
         amp *
-        Math.exp(-damping * Math.abs(x)) *
-        Math.cos(frequency * x + frameNumber);
-      return { x: x + width / 2, y: y + waterDepth };
+        Math.exp(-waveDamping * Math.abs(x)) *
+        Math.cos(frequency * x + frameNumber - (phaseShift ?? 0));
+      return { x: x + width / 2, y: y + verticalOffset };
     });
   };
 
-  const points = Array.from({ length: amountOfBars }, (_, i) => {
+  const points = Array.from({ length: totalFrames }, (_, i) => {
     const ripples = createRipple(i, amplitude);
 
-    amplitude = amplitude * (1 - i / totalFrames);
+    amplitude = amplitude * (1 - i / damp);
 
     return ripples;
   });
@@ -42,35 +48,53 @@ function getRipple(totalFrames: number) {
 
 export const WaterDrop = () => {
   const barRefs = React.useRef<Array<HTMLDivElement>>([]);
-  const points = React.useMemo(() => {
-    return getRipple(totalFrames);
+  const mediumBarRefs = React.useRef<Array<HTMLDivElement>>([]);
+  const bigFrames = React.useMemo(() => {
+    return getRipple(amplitudeDamp, 50, 2, 0.02, waterDepth);
   }, []);
 
-  const keyframes = React.useMemo(() => {
+  const bigKeyframes = React.useMemo(() => {
     return Array.from({ length: amountOfBars }, (_, i) => {
-      const frames = points.map((frame) => {
+      return bigFrames.map((frame) => {
         return {
-          left: `${frame[i]?.x}px`,
-          height: `${frame[i]?.y}px`,
+          left: `${frame[i].x}px`,
+          height: `${frame[i].y}px`,
         };
       });
-
-      return frames;
     });
-  }, [points]);
+  }, [bigFrames]);
 
-  console.log(points);
+  const mediumFrames = React.useMemo(() => {
+    return getRipple(amplitudeDamp, 50, 2, 0.02, mediumWaterDepth, 10);
+  }, []);
+
+  const mediumKeyframes = React.useMemo(() => {
+    return Array.from({ length: amountOfBars }, (_, i) => {
+      return mediumFrames.map((frame) => {
+        return {
+          left: `${frame[i].x}px`,
+          height: `${frame[i].y}px`,
+        };
+      });
+    });
+  }, [mediumFrames]);
+
+  console.log(frames, bigKeyframes);
 
   const triggerAnimaton = () => {
     barRefs.current.forEach((bar, idx) => {
-      bar.animate(keyframes[idx], duration);
+      bar.animate(bigKeyframes[idx], duration);
+    });
+
+    mediumBarRefs.current.forEach((bar, idx) => {
+      bar.animate(mediumKeyframes[idx], duration);
     });
   };
 
   return (
     <div className={blockClass}>
       <div className={blockClass + '__ripple'}>
-        {points.map((_, idx) => {
+        {bigFrames[0].map((_, idx) => {
           return (
             <div
               key={idx}
@@ -79,6 +103,19 @@ export const WaterDrop = () => {
               }}
               className={blockClass + '__bar'}
               style={{ left: `${idx * 3}px`, height: `${waterDepth}px` }}
+            />
+          );
+        })}
+
+        {mediumFrames[0].map((_, idx) => {
+          return (
+            <div
+              key={idx}
+              ref={(el: HTMLDivElement) => {
+                mediumBarRefs.current[idx] = el;
+              }}
+              className={blockClass + '__bar ' + blockClass + '__bar--medium'}
+              style={{ left: `${idx * 3}px`, height: `${mediumWaterDepth}px` }}
             />
           );
         })}
