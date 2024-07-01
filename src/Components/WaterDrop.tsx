@@ -7,7 +7,8 @@ const blockClass = `waterdrop`;
 
 const width = 300;
 const waterDepth = 100;
-const mediumWaterDepth = 75;
+const mediumWaterDepth = 98;
+const smallWaterDepth = 96;
 const amountOfBars = 100;
 const amplitudeDamp = 500;
 const totalFrames = 60;
@@ -49,6 +50,8 @@ function getRipple(
 export const WaterDrop = () => {
   const barRefs = React.useRef<Array<HTMLDivElement>>([]);
   const mediumBarRefs = React.useRef<Array<HTMLDivElement>>([]);
+  const smallBarRefs = React.useRef<Array<HTMLDivElement>>([]);
+
   const bigFrames = React.useMemo(() => {
     return getRipple(amplitudeDamp, 50, 2, 0.02, waterDepth);
   }, []);
@@ -65,10 +68,25 @@ export const WaterDrop = () => {
   }, [bigFrames]);
 
   const mediumFrames = React.useMemo(() => {
-    return getRipple(amplitudeDamp, 50, 2, 0.02, mediumWaterDepth, 10);
+    return getRipple(amplitudeDamp, 45, 2, 0.02, mediumWaterDepth, 10);
   }, []);
 
   const mediumKeyframes = React.useMemo(() => {
+    return Array.from({ length: amountOfBars }, (_, i) => {
+      return mediumFrames.map((frame) => {
+        return {
+          left: `${frame[i].x}px`,
+          height: `${frame[i].y}px`,
+        };
+      });
+    });
+  }, [mediumFrames]);
+
+  const smallFrames = React.useMemo(() => {
+    return getRipple(amplitudeDamp, 40, 2.3, 0.05, smallWaterDepth, 12);
+  }, []);
+
+  const smallKeyframes = React.useMemo(() => {
     return Array.from({ length: amountOfBars }, (_, i) => {
       return mediumFrames.map((frame) => {
         return {
@@ -88,6 +106,10 @@ export const WaterDrop = () => {
 
     mediumBarRefs.current.forEach((bar, idx) => {
       bar.animate(mediumKeyframes[idx], duration);
+    });
+
+    smallBarRefs.current.forEach((bar, idx) => {
+      bar.animate(smallKeyframes[idx], duration);
     });
   };
 
@@ -116,6 +138,19 @@ export const WaterDrop = () => {
               }}
               className={blockClass + '__bar ' + blockClass + '__bar--medium'}
               style={{ left: `${idx * 3}px`, height: `${mediumWaterDepth}px` }}
+            />
+          );
+        })}
+
+        {smallFrames[0].map((_, idx) => {
+          return (
+            <div
+              key={idx}
+              ref={(el: HTMLDivElement) => {
+                smallBarRefs.current[idx] = el;
+              }}
+              className={blockClass + '__bar ' + blockClass + '__bar--small'}
+              style={{ left: `${idx * 3}px`, height: `${smallWaterDepth}px` }}
             />
           );
         })}
