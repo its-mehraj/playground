@@ -1,0 +1,88 @@
+.tt-slider {
+  height: 120px;
+  width: 29px;
+
+  outline: solid 1px #000;
+
+  &__container {
+    position: relative;
+    height: 500px;
+    width: 500px;
+    outline: solid 1px #000;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__bar {
+    background: black;
+    width: 20px;
+    position: absolute;
+    left: 0;
+    transform-origin: left;
+    transition: background-color 0.1s ease-in-out;
+    &.animate {
+      span {
+        transform: scaleX(1.4);
+        color: red;
+      }
+    }
+    &.marked {
+      background: yellow !important;
+    }
+
+    span {
+      position: absolute;
+      right: -20px;
+      top: -3px;
+      font-size: 6px;
+
+      transition: all 0.1s ease-in-out;
+    }
+    // transition: transform 0.01s ease-in-out;
+  }
+
+  &__scroll {
+    // overflow-y: scroll;
+    // overflow-x: hidden;
+    height: 100%;
+    width: 100%;
+
+    position: relative;
+  }
+
+  &__values {
+    position: absolute;
+    // outline: solid 1px red;
+
+    top: calc(100% - 150px);
+    left: 0;
+    bottom: 0px;
+    right: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    align-items: flex-start;
+
+    gap: 8px;
+  }
+
+  &__controls {
+    position: absolute;
+    top: 0;
+    bottom: calc(100% - 50px);
+
+    left: 0;
+    right: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 8px;
+  }
+}

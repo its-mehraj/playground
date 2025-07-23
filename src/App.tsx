@@ -1,13 +1,15 @@
 import React from 'react';
 import './App.css';
 import { Frame } from './Components/Frame';
-import { WaterDrop } from './Components/WaterDrop';
+// import { WaterDrop } from './Components/WaterDrop';
+import { SliderContainer } from './Components';
 
 function App() {
   return (
     <div className="container">
       <Frame>
-        <WaterDrop />
+        <SliderContainer />
+        {/* <WaterDrop /> */}
       </Frame>
     </div>
   );
