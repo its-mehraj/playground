@@ -19,6 +19,14 @@ module.exports = {
   ],
   rules: {
     'prettier/prettier': 'warn',
+    'no-unused-vars': [
+      'error',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
+      },
+    ],
   },
   env: {
     browser: true,

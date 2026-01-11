@@ -1,15 +1,20 @@
+import './App.less';
+
 import React from 'react';
-import './App.css';
 import { Frame } from './Components/Frame';
 // import { WaterDrop } from './Components/WaterDrop';
-import { SliderContainer } from './Components';
+import { MandelBrot } from './Components';
 
 function App() {
   return (
     <div className="container">
       <Frame>
-        <SliderContainer />
+        {/* Hello */}
+        {/* <SliderContainer /> */}
+        {/* <SliderContainer /> */}
+        {/* <MandelbrotCanvas height={200} width={200} /> */}
         {/* <WaterDrop /> */}
+        <MandelBrot />
       </Frame>
     </div>
   );

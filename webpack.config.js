@@ -6,6 +6,10 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'public'),
     filename: 'bundle.js',
+    clean: true,
+
+    // Critical for workers (ensures runtime asset URLs resolve correctly)
+    publicPath: 'auto',
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.less'],
@@ -44,7 +48,7 @@ module.exports = {
     client: {
       overlay: {
         warnings: false,
-        errors: true,
+        errors: false,
       },
     },
   },
